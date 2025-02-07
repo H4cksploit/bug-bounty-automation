@@ -1,0 +1,1 @@
+altdns -i domains.txt -o permutation_output -w words.txt -r -s resolved_output.txt

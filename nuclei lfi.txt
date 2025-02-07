@@ -1,0 +1,4 @@
+cat waybackurl.txt | uro | sed 's/=.*/=/' | gf lfi | nuclei -tags lfi 
+
+
+-c 50 -rl 50 -bs 1

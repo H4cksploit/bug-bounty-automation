@@ -1,0 +1,66 @@
+﻿#securitycipher.com
+whois target.com 
+nslookup target.com 
+dig target.com
+host -t ns target.com 
+host -t mx target.com 
+gobuster dns -d target.com -t 50 -w wordlist.txt
+subfinder -d target.com
+amass enum -d target.com
+assetfinder --subs-only target.com
+findomain t target.com
+massdns -r resolvers.txt -t A o Sw results.txt subdomains.txt
+httprobe subdomains.txt> live_subdomains.txt
+httpx -1 subdomains.txt -o live_hosts.txt
+nmap -il live_hosts.txt -oA nmap_scan
+whatweb i live_hosts.txt
+fierce domain target.com
+dirsearch -u target.com -e *
+ffuf -w wordlist.txt -u https://target.com/FUZZ
+gowitness file -f live_hosts.txt -P screenshots/
+nuclei 1 live_hosts.txt -t templates/
+metabigor net --org target.com
+metagoofil -d target.com -t doc, pdf, xls, docx, xlsx, ppt, pptx, js, sql, docx, json -1 100 
+theHarvester -d target.com -1 500 -b all
+dnsenum target.com
+dnsrecon -d target.com
+shodan search hostname:target.com
+censys search target.com
+spiderfoot -s target.com -o spider foot_report.html
+sniper t target.com
+wafw00f target.com
+arjun -u https://target.com -oT arjun_output.txt
+subjack -w subdomains.txt -t 20 -o subjack_results.txt meg d 1000 -v /path/to/live_subdomains.txt
+waymore -u target.com -o waymore_results.txt
+unfurl -u target.com -o unfurl_results.txt
+dalfox file live_hosts.txt
+gospider -S live_hosts.txt -o gospider_output/
+recon-ng -w workspace -i target.com
+xray webscan --basic-crawler http://target.com vhost u target.com -o vhost_results.txt
+gf xss | tee xss_payloads.txt
+gf sqli | tee sqli_payloads.txt
+gf lfi | tee lfi_payloads.txt
+gf ssrf | tee ssrf_payloads.txt 
+gf idor | tee idor_payloads.txt 
+gf ssti | tee ssti_payloads.txt
+git-secrets --scan
+shuffledns -d target.com -list resolvers.txt -o shuffledns_results.txt
+dnsgen -f subdomains.txt | massdns -r resolvers.txt -t A -o S -w dnsgen_results.txt
+mapcidr -silent -cidr target.com -o mapcidr_results.txt
+tko-subs -domains-target.com -data-providers-data.csv
+kiterunner -w wordlist.txt -u https://target.com
+github-dorker -d target.com
+gfredirect -u target.com
+paramspider --domain target.com --output paramspider_output.txt
+cloud_enum -k target.com -1 cloud_enum_output.txt
+subzero -d target.com
+dnswalk target.com
+masscan -il live_hosts.txt -p0-65535 -oX masscan_results.xml
+xsstrike -u https://target.com
+byp4xx https://target.com/FUZZ
+dnsx -1 subdomains.txt -resp-only -o dnsx_results.txt
+waybackpack target.com -d output/
+puredns resolve subdomains.txt -r resolvers.txt -w puredns_results.txt
+ctfr -d target.com -o ctfr_results.txt
+dnsvalidator -t 100 -f resolvers.txt -o validated_resolvers.txt
+httpx -silent -1 live_subdomains.txt -mc 200 title -tech-detect -o httpx_results.txt 

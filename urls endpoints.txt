@@ -1,0 +1,5 @@
+cat urls.txt | grep -E "\.txt/\.log/\.cache/\.secret|\.db/\.backup/\.yml/\.json/\.gz|\.rar|\.zip/|\.tar/\.sql/\.env/\.config/\.conf/\.ini/\.htaccess/\.htpasswd/\.pem/\.key/\.crt/\.cer/\.pfx/\.p12/\.swp/\.bak/\.old/\.tmp/\.temp/\.dump/\.passwd/\.shadow/\.git/\.svn/\.DS_Store/\.idea/\.vscode/\.bash_history/\.zsh_history"
+
+
+
+grep -E "\.(txt|log|cache|secret|db|backup|yml|json|gz|rar|zip|tar|sql|env|config|conf|ini|htaccess|htpasswd|pem|key|crt|cer|pfx|p12|swp|bak|old|tmp|temp|dump|passwd|shadow|git|svn|DS_Store|idea|vscode|bash_history|zsh_history)$" url.txt

