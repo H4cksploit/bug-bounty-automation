@@ -2,8 +2,7 @@
 
 bash backmeup.sh --domain
 1. subfinder -d example.com -all -recursive > subdomain.txt
-2. cat subdomain.txt | httpx-toolkit-ports 80, 443, 8080,
-8000, 8888 -threads 200 > subdomains_alive.txt
+2. cat subdomain.txt | httpx-toolkit-ports 80, 443, 8080, 8000, 8888 -threads 200 > subdomains_alive.txt
 3. katana -u subdomains_alive.txt -d 5-ps-pss waybackarchive, commoncrawl, alienvault -hf -jc -fx-ef woff, css, png, svg, jpg, woff2, jpeg, gif, svg -o allurls.txt
 4. cat allurls.txt | grep -E "\.js$" >> js.txt
 5. cat js.txt | nuclei -t /home/h4cksploit/nuclei-templates/http/exposures/ -c 30
