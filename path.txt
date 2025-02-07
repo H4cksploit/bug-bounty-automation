@@ -1,4 +1,3 @@
-cd /mnt/c/users/h4cksploit/OneDrive/Desktop/payloads/fuzz
 
 sudo ffuf -w onelistforallshort.txt -u -mc 200
 
