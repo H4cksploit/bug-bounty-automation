@@ -1,0 +1,82 @@
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+BOLD='\033[1m'
+UNDERLINE='\033[4m'
+NC='\033[0m' # No Color
+
+echo "${RED}${BOLD}input target${NC}:"
+read url
+echo
+echo  "${YELLOW}${BOLD}ip resolution${NC}"
+echo
+ping -c 1 $url 
+echo
+echo "${YELLOW}whois${NC}"
+whois $url
+echo
+echo "${YELLOW}nslookup${NC}"
+nslookup  $url 
+echo
+echo "${YELLOW}Dig${NC}"
+dig $url
+echo
+echo  "${YELLOW}host ns${NC}"
+host -t ns $url
+echo
+echo "${YELLOW}host mx${NC}"
+host -t mx $url 
+echo
+echo
+echo "${YELLOW}subfinder subdomains${NC}"
+echo
+echo
+subfinder -d $url | httpx 
+echo
+echo
+echo "${YELLOW}puredns subdomains${NC}"
+echo
+echo
+puredns bruteforce /home/h4cksploit/bitquark-subdomains-top100000.txt --resolvers /home/h4cksploit/resolvers.txt $url --rate-limit 100 --rate-limit-trusted 100
+echo
+echo
+echo "${YELLOW}Amass${NC}"
+echo
+echo
+amass enum -d $url
+echo
+echo
+echo "${YELLOW}Assetfinder${NC}"
+echo
+echo
+assetfinder --subs-only $url
+echo
+echo
+echo "${YELLOW}Fierce${NC}"
+echo "${YELLOW}Fierce is a semi-lightweight scanner that helps locate non-contiguous IP space and hostnames against specified domains${NC}"
+echo
+echo
+fierce --domain $url
+echo
+echo
+echo "${YELLOW}Dirsearch${NC}"
+echo
+echo
+#dirsearch -u $url -i 200  -r 
+echo
+echo
+echo "${YELLOW}Metagofil${NC}"
+echo
+echo
+metagoofil -d $url -t doc, pdf, xls, docx, xlsx, ppt, pptx, js, sql, docx, json -1 100 
+echo
+echo 
+echo "${YELLOW}theHarvester${NC}"
+echo
+echo
+theHarvester -d $url -l 500 -b all
+echo
+echo
+fi
+
