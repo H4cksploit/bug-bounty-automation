@@ -1,0 +1,1 @@
+sudo mount -t cifs //192.168.100.4/Desktop /mnt/winshare -o username=h4cksploit

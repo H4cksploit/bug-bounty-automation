@@ -1,0 +1,1 @@
+site:nasa.gov (ext:doc OR ext:docx OR ext:odt OR ext:pdf OR ext:rtf OR ext:sxw OR ext:psw OR ext:ppt OR ext:pptx OR ext:pps OR ext:csv) ("confidential" OR "sensitive" OR "phonenumber" OR "email" OR "password" OR "internal use only" OR "network configuration")

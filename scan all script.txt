@@ -1,0 +1,56 @@
+curl "http://testphp.vulnweb.com" | grep -oP '(https*://|www\.)[^ ]*'
+
+
+This code is a JavaScript snippet that you can paste into your browser’s web console. It's designed to scan all <​script> elements on the page, fetch their content if they have a src, and then search for strings that match a certain pattern, likely looking for URLs, tokens, or parameterized strings.
+
+
+javascript:(function () {
+    const regex = /(?<=(\"|%27|'))[a-zA-Z0-9_?&=\/\-#\.]*(?=(\"|'|%60))/g;
+    const results = new Set();
+    const scripts = document.getElementsByTagName("script");
+    let pending = 0;
+
+    function displayResults() {
+        const outputDiv = document.createElement("div");
+        outputDiv.style.position = "fixed";
+        outputDiv.style.top = "10px";
+        outputDiv.style.left = "10px";
+        outputDiv.style.maxHeight = "90%";
+        outputDiv.style.overflowY = "auto";
+        outputDiv.style.background = "#fff";
+        outputDiv.style.border = "1px solid #000";
+        outputDiv.style.padding = "10px";
+        outputDiv.style.zIndex = 9999;
+        outputDiv.style.fontSize = "14px";
+        outputDiv.style.fontFamily = "monospace";
+        outputDiv.innerHTML = "<b>Matched Results:</b><br><br>" + Array.from(results).join("<br>");
+        document.body.appendChild(outputDiv);
+    }
+
+    for (let i = 0; i < scripts.length; i++) {
+        const src = scripts[i].src;
+        if (src) {
+            pending++;
+            fetch(src)
+                .then(res => res.text())
+                .then(text => {
+                    const matches = text.matchAll(regex);
+                    for (const match of matches) results.add(match[0]);
+                })
+                .catch(err => console.log("Error fetching script:", err))
+                .finally(() => {
+                    pending--;
+                    if (pending === 0) displayResults();
+                });
+        }
+    }
+
+    const pageContent = document.documentElement.outerHTML;
+    const pageMatches = pageContent.matchAll(regex);
+    for (const match of pageMatches) results.add(match[0]);
+
+    // fallback in case no scripts to fetch
+    setTimeout(() => {
+        if (pending === 0) displayResults();
+    }, 3000);
+})();

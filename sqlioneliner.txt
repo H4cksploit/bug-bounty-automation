@@ -27,3 +27,7 @@ sqlmap -u "https://example,com/endpoint?id=1" -p id --dbs --tables --level 3
 
 
 $ subfinder -dL domain.txt | dnsx | waybackurls | uro | grep "\?" | head -20 | httpx -silent > urls;sqlmap -m urls --batch --random-agent --level 1 | tee sqlmap.txt
+
+
+
+https://github.com/S1N6H/Barcha?tab=readme-ov-file
