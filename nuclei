@@ -1,0 +1,87 @@
+import sys
+from PyQt5.QtWidgets import (
+    QApplication, QWidget, QPushButton, QLineEdit, QTextEdit, 
+    QVBoxLayout, QLabel, QListWidget, QListWidgetItem, QAbstractItemView
+)
+import subprocess
+import threading
+
+class NucleiGUI(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.initUI()
+        
+    def initUI(self):
+        self.setWindowTitle('Nuclei Scanner GUI')
+        self.setGeometry(100, 100, 700, 500)
+
+        self.url_label = QLabel('Target URL/IP:')
+        self.url_input = QLineEdit()
+
+        self.template_label = QLabel('Select Templates:')
+        self.template_list = QListWidget()
+        self.template_list.setSelectionMode(QAbstractItemView.MultiSelection)
+
+        # Example templates - tum actual path ya template names yahan daal sakte ho
+        templates = [
+            'default', 'cves', 'exposures', 'files', 'fuzzing', 
+            'misc', 'network', 'security-misconfiguration'
+        ]
+        for temp in templates:
+            item = QListWidgetItem(temp)
+            self.template_list.addItem(item)
+
+        self.run_button = QPushButton('Run Scan')
+        self.run_button.clicked.connect(self.run_scan)
+
+        self.output_console = QTextEdit()
+        self.output_console.setReadOnly(True)
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.url_label)
+        layout.addWidget(self.url_input)
+        layout.addWidget(self.template_label)
+        layout.addWidget(self.template_list)
+        layout.addWidget(self.run_button)
+        layout.addWidget(self.output_console)
+
+        self.setLayout(layout)
+
+    def run_scan(self):
+        target = self.url_input.text().strip()
+        selected_templates = [item.text() for item in self.template_list.selectedItems()]
+
+        if not target:
+            self.output_console.append("Please enter a target URL or IP.")
+            return
+        if not selected_templates:
+            self.output_console.append("Please select at least one template.")
+            return
+
+        self.output_console.append(f"Starting scan on {target} with templates: {', '.join(selected_templates)}")
+
+        # Run nuclei in a thread to keep UI responsive
+        thread = threading.Thread(target=self.execute_nuclei, args=(target, selected_templates))
+        thread.start()
+
+    def execute_nuclei(self, target, templates):
+        # Build nuclei command with templates
+        # Assume templates folder is in default location or pass full path
+        template_args = []
+        for t in templates:
+            template_args.extend(['-t', f'templates/{t}'])
+
+        cmd = ['nuclei', '-u', target] + template_args
+
+        try:
+            proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+            for line in proc.stdout:
+                self.output_console.append(line.strip())
+        except Exception as e:
+            self.output_console.append(f"Error running Nuclei: {e}")
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    gui = NucleiGUI()
+    gui.show()
+    sys.exit(app.exec_())
