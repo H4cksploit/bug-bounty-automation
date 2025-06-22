@@ -1,0 +1,1 @@
+puredns bruteforce bitquark-subdomains-top100000.txt --resolvers /home/h4cksploit/resolvers.txt -d /mnt/c/users/h4cksploit/OneDrive/Desktop/bugbounty/'mercedez benz'/mbos.cloud.txt --rate-limit 100 --rate-limit-trusted 100

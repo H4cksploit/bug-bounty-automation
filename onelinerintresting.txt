@@ -1,1 +1,6 @@
 read -p "Press 1 to enter a base URL or 2 to use live-urls.txt: " option && if [ "$option" -eq 1 ]; then read -p "Enter the base URL: " base_url && python3 /home/h4cksploit/LinkFinder/linkfinder.py -i $base_url -d -o cli | grep "\.js" | grep -v "Running against" | sort -u | while read path; do curl -s "$base_url$path" | grep -o -i -E "(aws_|aws-|-secret|_secret|-key|_key|-token|_token|bearer|authorization).{0,160}" --color=always | sed "s|^|$(echo -e '\033[38;5;220m')[$base_url$path]$(echo -e '\033[0m') |"; done; elif [ "$option" -eq 2 ]; then while read url; do python3 /home/h4cksploit/LinkFinder/linkfinder.py -i $url -d -o cli | grep "\.js" | grep -v "Running against" | sort -u | while read path; do curl -s "$url$path" | grep -o -i -E "(aws_|aws-|-secret|_secret|-key|_key|-token|_token|bearer|authorization).{0,160}" --color=always | sed "s|^|$(echo -e '\033[38;5;220m')[$url$path]$(echo -e '\033[0m') |"; done; done < live-urls.txt; else echo "Invalid option selected!"; fi
+
+
+
+
+assetfinder http://example.com | gau | egrep -v '(.css|.png|.jpeg|.jpg|.svg|.gif|.wolf)' | while read url; do vars=$(curl -s $url | grep -Eo "var [a-zA-Z0-9]+" | sed -e 's,'var','"$url"?',g' -e 's/ //g' | grep -v '.js' | sed 's/.*/&=xss/g'); echo -e
