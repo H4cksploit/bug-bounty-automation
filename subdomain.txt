@@ -6,77 +6,57 @@ BOLD='\033[1m'
 UNDERLINE='\033[4m'
 NC='\033[0m' # No Color
 
+
+#mkdir subdomains
+#cd subdomains
+
 echo "${RED}${BOLD}input target${NC}:"
 read url
 echo
-echo  "${YELLOW}${BOLD}ip resolution${NC}"
 echo
-ping -c 1 $url 
+
+# Create directory with target name
+target_dir="${url}_subdomains"
+mkdir -p "$target_dir"
+cd "$target_dir"
+
+echo "${YELLOW}Starting subdomain enumeration for $url${NC}"
 echo
-echo "${YELLOW}whois${NC}"
-whois $url
-echo
-echo "${YELLOW}nslookup${NC}"
-nslookup  $url 
-echo
-echo "${YELLOW}Dig${NC}"
-dig $url
-echo
-echo  "${YELLOW}host ns${NC}"
-host -t ns $url
-echo
-echo "${YELLOW}host mx${NC}"
-host -t mx $url 
-echo
-echo
+
 echo "${YELLOW}subfinder subdomains${NC}"
 echo
 echo
-subfinder -d $url | httpx 
+subfinder -d $url > subfinder.txt
 echo
 echo
 echo "${YELLOW}puredns subdomains${NC}"
 echo
 echo
-puredns bruteforce /home/h4cksploit/bitquark-subdomains-top100000.txt --resolvers /home/h4cksploit/resolvers.txt $url --rate-limit 100 --rate-limit-trusted 100
+puredns bruteforce /home/hacksploit/subdomains-5000.txt --resolvers /home/hacksploit/resolvers.txt $url --rate-limit 100 --rate-limit-trusted 100 > puredns.txt
 echo
 echo
-echo "${YELLOW}Amass${NC}"
+echo "${YELLOW}sublist3r${NC}"
 echo
 echo
-amass enum -d $url
+sublist3r -d $url > sublist3r.txt
 echo
 echo
 echo "${YELLOW}Assetfinder${NC}"
 echo
 echo
-assetfinder --subs-only $url
+assetfinder --subs-only $url > assetfinder.txt
 echo
 echo
-echo "${YELLOW}Fierce${NC}"
-echo "${YELLOW}Fierce is a semi-lightweight scanner that helps locate non-contiguous IP space and hostnames against specified domains${NC}"
+echo "${YELLOW}Knockpy${NC}"
 echo
 echo
-fierce --domain $url
+knockpy -d $url > knockpy.txt
 echo
 echo
-echo "${YELLOW}Dirsearch${NC}"
+echo "${YELLOW}findomain${NC}"
 echo
 echo
-#dirsearch -u $url -i 200  -r 
-echo
-echo
-echo "${YELLOW}Metagofil${NC}"
-echo
-echo
-metagoofil -d $url -t doc, pdf, xls, docx, xlsx, ppt, pptx, js, sql, docx, json -1 100 
-echo
-echo 
-echo "${YELLOW}theHarvester${NC}"
-echo
-echo
-theHarvester -d $url -l 500 -b all
+findomain -t $url > findomain.txt
 echo
 echo
 fi
-
